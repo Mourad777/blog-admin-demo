@@ -16,6 +16,7 @@ import SortableGallery from '../gallery/Gallery'
 import { deleteVideo, getCategories, getVideos, submitNewCategory, updateOrder, presignedUrlFileUpload, updateVideoDetails } from "../../utility/api";
 import { processCategories } from "../../utility/helper-functions";
 import Loader from "../../components/Loader/Loader";
+import { useHistory } from 'react-router';
 
 function VideoGallery() {
     const [items, setItems] = useState([]);
@@ -25,6 +26,7 @@ function VideoGallery() {
     const [title, setTitle] = useState('');
     const [thumbnail, setThumbnail] = useState(null);
     const [isCommentsEnabled, setIsCommentsEnabled] = useState(true);
+    const [video, setVideo] = useState({});
 
     const [description, setDescription] = useState('');
     const [tags, setTags] = useState([]);
@@ -36,6 +38,8 @@ function VideoGallery() {
 
     const videoFileInputRef = createRef();
     const thumbnailInputRef = createRef();
+
+    const history = useHistory();
 
     const onSortEnd = async ({ oldIndex, newIndex }) => {
         const reArrangeVideos = arrayMove(items, oldIndex, newIndex);
@@ -90,6 +94,7 @@ function VideoGallery() {
     };
 
     const handleVideoDetails = (video) => {
+        setVideo(video);
         setTitle(video.title || '')
         setThumbnail(video.thumbnail)
         setDescription(video.description || '')
@@ -228,6 +233,7 @@ function VideoGallery() {
                             </Dropdown.Menu>
                         </Dropdown>
                     </Segment>
+                    <StyledBlueButton onClick={() => history.push(`/video/${video.id}/comments`)}>Comments {video.comment_count}</StyledBlueButton>
                     <div style={{ marginTop: 20 }}>
                         <label style={{ fontSize: '1.2em' }}>Country</label>
                         <Dropdown
