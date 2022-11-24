@@ -98,10 +98,7 @@ const CreatePost = ({ isEditing }) => {
             setAuthor(post.author || '');
             setSummary(post.summary || '');
             const timeStamp = new Date(post.created_at).getTime();
-            console.log('timeStamp', timeStamp)
             const formattedDate = moment(timeStamp).format("YYYY-MM-DD")
-            // moment(timeStamp).format("dddd, MMMM DD YYYY, HH:mm")
-
             setDateWritten(post.date_written || formattedDate)
             setIsPublished(!!parseInt(post.is_published));
             setIsCommentsEnabled(!!parseInt(post.is_comments_enabled));

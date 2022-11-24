@@ -705,10 +705,9 @@ export const registerUser = async (url, formData, setIsLoading) => {
 }
 
 export const login = async (url, formData, setIsLoading) => {
-    let loginResponse;
     setIsLoading(true);
     try {
-        loginResponse = await axios.post(
+        const loginResponse = await axios.post(
             url,
             formData,
             {
@@ -717,15 +716,14 @@ export const login = async (url, formData, setIsLoading) => {
                 }
             }
         )
+        const token = loginResponse.data.token;
+        localStorage.setItem('token', token)
+        setIsLoading(false)
+        console.log('User login response: ', loginResponse)
     } catch (e) {
         setIsLoading(false)
-        console.log('User login response error: ', e)
+        console.log('User login response error: ', e.response)
     }
-    setIsLoading(false)
-    console.log('User login response: ', loginResponse)
-
-    const token = loginResponse.data.token;
-    localStorage.setItem('token', token)
 }
 
 export const logout = async (setIsLoading) => {
